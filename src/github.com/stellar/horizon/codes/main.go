@@ -4,7 +4,7 @@ package codes
 
 import (
 	"github.com/go-errors/errors"
-	"github.com/stellar/go/xdr"
+	"github.com/Kregopaulgue/go/xdr"
 )
 
 // ErrUnknownCode is returned when an unexepcted value is provided to `String`
@@ -20,7 +20,7 @@ const (
 	// due to a lack of funds.
 	OpUnderfunded = "op_underfunded"
 
-	// OpLowReserve is the string code used to specify the operation failed
+	// OpLowRese)rve is the string code used to specify the operation failed
 	// because the account in question does not have enough balance to satisfy
 	// what their new minimum balance would be.
 	OpLowReserve = "op_low_reserve"
@@ -236,6 +236,36 @@ func String(code interface{}) (string, error) {
 		case xdr.InflationResultCodeInflationNotTime:
 			return "op_not_time", nil
 		}
+	case xdr.GiveSignersAccessResultCode:
+		switch code {
+		case xdr.GiveSignersAccessResultCodeGiveSignersAccessSuccess:
+			return OpSuccess, nil
+		case xdr.GiveSignersAccessResultCodeGiveSignersAccessLowReserve:
+			return OpLowReserve, nil
+		case xdr.GiveSignersAccessResultCodeGiveSignersAccessFriendIsSource:
+			return "op_friend_is_source", nil
+		case xdr.GiveSignersAccessResultCodeGiveSignersAccessFriendDoesntExist:
+			return "op_friend_doesnt_exist", nil
+		case xdr.GiveSignersAccessResultCodeGiveSignersAccessAccessSrcNotAuthorised:
+			return "access_src_not_authorised", nil
+		}
+	case xdr.SetSignersResultCode:
+		switch code {
+		case xdr.SetSignersResultCodeSetSignersSuccess:
+			return OpSuccess, nil
+		case xdr.SetSignersResultCodeSetSignersLowReserve:
+			return OpLowReserve, nil
+		case xdr.SetSignersResultCodeSetSignersInvalidAccess:
+			return "op_invalid_access", nil
+		case xdr.SetSignersResultCodeSetSignersFriendIsSource:
+			return "op_friend_is_source", nil
+		case xdr.SetSignersResultCodeSetSignersAccessGiverDoesntExist:
+			return "op_access_giver_doesnt_exist", nil
+		case xdr.SetSignersResultCodeSetSignersAccessEntryDoesntExist:
+			return "op_signers_access_entry_doesnt_exist", nil
+		case xdr.SetSignersResultCodeSetSignersBadSigner:
+			return "op_bad_signer", nil
+		}
 	}
 
 	return "", errors.New(ErrUnknownCode)
@@ -272,6 +302,10 @@ func ForOperationResult(opr xdr.OperationResult) (string, error) {
 		ic = ir.MustAccountMergeResult().Code
 	case xdr.OperationTypeInflation:
 		ic = ir.MustInflationResult().Code
+	case xdr.OperationTypeGiveAccess:
+		ic = ir.MustGiveSignersAccessResult().Code
+	case xdr.OperationTypeSetSigners:
+		ic = ir.MustSetSignersResult().Code
 	}
 
 	return String(ic)
