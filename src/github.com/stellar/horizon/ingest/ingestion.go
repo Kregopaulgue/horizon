@@ -9,8 +9,8 @@ import (
 
 	sq "github.com/Masterminds/squirrel"
 	"github.com/guregu/null"
-	"github.com/stellar/go/support/errors"
-	"github.com/stellar/go/xdr"
+	"github.com/Kregopaulgue/go/support/errors"
+	"github.com/Kregopaulgue/go/xdr"
 	"github.com/stellar/horizon/db2/core"
 	"github.com/stellar/horizon/db2/history"
 	"github.com/stellar/horizon/db2/sqx"

@@ -5,8 +5,8 @@ package resource
 import (
 	"time"
 
-	"github.com/stellar/go/strkey"
-	"github.com/stellar/go/support/errors"
+	"github.com/Kregopaulgue/go/strkey"
+	"github.com/Kregopaulgue/go/support/errors"
 	"github.com/stellar/horizon/db2/history"
 	"github.com/stellar/horizon/render/hal"
 	"github.com/stellar/horizon/resource/base"
@@ -27,14 +27,15 @@ var KeyTypeNames = map[strkey.VersionByte]string{
 // Account is the summary of an account
 type Account struct {
 	Links struct {
-		Self         hal.Link `json:"self"`
-		Transactions hal.Link `json:"transactions"`
-		Operations   hal.Link `json:"operations"`
-		Payments     hal.Link `json:"payments"`
-		Effects      hal.Link `json:"effects"`
-		Offers       hal.Link `json:"offers"`
-		Trades       hal.Link `json:"trades"`
-		Data         hal.Link `json:"data"`
+		Self         	hal.Link `json:"self"`
+		Transactions 	hal.Link `json:"transactions"`
+		Operations   	hal.Link `json:"operations"`
+		Payments     	hal.Link `json:"payments"`
+		Effects      	hal.Link `json:"effects"`
+		Offers       	hal.Link `json:"offers"`
+		Trades       	hal.Link `json:"trades"`
+		Data            hal.Link `json:"data"`
+		SignersAccesses hal.Link `json:"signersaccesses"`
 	} `json:"_links"`
 
 	HistoryAccount
@@ -259,6 +260,16 @@ type TransactionSuccess struct {
 	Env    string `json:"envelope_xdr"`
 	Result string `json:"result_xdr"`
 	Meta   string `json:"result_meta_xdr"`
+}
+
+type SignersAccess struct {
+	Links struct {
+		Self       		   hal.Link `json:"self"`
+		SignersAccessMaker hal.Link `json:"signers_access_maker"`
+	} `json:"_links"`
+	PT            string `json:"paging_token"`
+	AccessGiverID string `json:"accessgiverid"`
+	AccessTakerID string `json:"accesstakerid"`
 }
 
 // NewEffect returns a resource of the appropriate sub-type for the provided

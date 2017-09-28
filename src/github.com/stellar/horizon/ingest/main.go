@@ -8,7 +8,7 @@ import (
 
 	sq "github.com/Masterminds/squirrel"
 	metrics "github.com/rcrowley/go-metrics"
-	"github.com/stellar/go/support/db"
+	"github.com/Kregopaulgue/go/support/db"
 	"github.com/stellar/horizon/db2/core"
 )
 

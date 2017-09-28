@@ -30,6 +30,9 @@ var TypeNames = map[history.EffectType]string{
 	history.EffectDataCreated:              "data_created",
 	history.EffectDataRemoved:              "data_removed",
 	history.EffectDataUpdated:              "data_updated",
+	history.EffectSignersAccessCreated:     "signers_access_created",
+	history.EffectSignersAccessUpdated:     "signers_access_updated",
+	history.EffectSignersAccessRemoved:     "signers_access_removed",
 }
 
 // New creates a new effect resource from the provided database representation
@@ -101,6 +104,18 @@ func New(
 		result = e
 	case history.EffectTrade:
 		e := Trade{Base: basev}
+		err = row.UnmarshalDetails(&e)
+		result = e
+	case history.EffectSignersAccessCreated:
+		e := SignersAccessCreated{Base: basev}
+		err = row.UnmarshalDetails(&e)
+		result = e
+	case history.EffectSignersAccessUpdated:
+		e := SignersAccessUpdated{Base: basev}
+		err = row.UnmarshalDetails(&e)
+		result = e
+	case history.EffectSignersAccessRemoved:
+		e := SignersAccessRemoved{Base: basev}
 		err = row.UnmarshalDetails(&e)
 		result = e
 	default:
@@ -221,6 +236,24 @@ type TrustlineDeauthorized struct {
 	Trustor   string `json:"trustor"`
 	AssetType string `json:"asset_type"`
 	AssetCode string `json:"asset_code,omitempty"`
+}
+
+type SignersAccessCreated struct {
+	Base
+	AccessGiverID string `json:"accessgiverid"`
+	AccessTakerID string `json:"accesstakerid"`
+}
+
+type SignersAccessUpdated struct {
+	Base
+	AccessGiverID string `json:"accessgiverid"`
+	AccessTakerID string `json:"accesstakerid"`
+}
+
+type SignersAccessRemoved struct {
+	Base
+	AccessGiverID string `json:"accessgiverid"`
+	AccessTakerID string `json:"accesstakerid"`
 }
 
 type Trade struct {

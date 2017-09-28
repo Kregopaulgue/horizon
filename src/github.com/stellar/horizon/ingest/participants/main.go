@@ -5,7 +5,7 @@ package participants
 import (
 	"fmt"
 
-	"github.com/stellar/go/xdr"
+	"github.com/Kregopaulgue/go/xdr"
 )
 
 // ForOperation returns all the participating accounts from the
@@ -44,6 +44,10 @@ func ForOperation(
 		// the only direct participant is the source_account
 	case xdr.OperationTypeManageData:
 		// the only direct participant is the source_account
+	case xdr.OperationTypeGiveAccess:
+		result = append(result, op.Body.MustGiveSignersAccessOp().FriendId)
+	case xdr.OperationTypeSetSigners:
+		result = append(result, *(op.Body.MustSetSignersOp().AccessGiverId))
 	default:
 		err = fmt.Errorf("Unknown operation type: %s", op.Body.Type)
 	}

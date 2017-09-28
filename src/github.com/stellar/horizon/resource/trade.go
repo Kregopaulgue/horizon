@@ -4,7 +4,7 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/stellar/go/amount"
+	"github.com/Kregopaulgue/go/amount"
 	"github.com/stellar/horizon/db2/history"
 	"github.com/stellar/horizon/httpx"
 	"github.com/stellar/horizon/render/hal"

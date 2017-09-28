@@ -10,10 +10,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/stellar/go/amount"
-	"github.com/stellar/go/keypair"
-	"github.com/stellar/go/meta"
-	"github.com/stellar/go/xdr"
+	"github.com/Kregopaulgue/go/amount"
+	"github.com/Kregopaulgue/go/keypair"
+	"github.com/Kregopaulgue/go/meta"
+	"github.com/Kregopaulgue/go/xdr"
 	"github.com/stellar/horizon/db2/history"
 	"github.com/stellar/horizon/ingest/participants"
 )
@@ -293,6 +293,29 @@ func (is *Session) ingestEffects() {
 
 		effects.Add(source, effect, dets)
 
+	case xdr.OperationTypeGiveAccess:
+		op := opbody.MustGiveSignersAccessOp()
+
+		effects.Add(op.FriendId, history.EffectSignersAccessCreated,
+			map[string]interface{}{
+				"access_taker_id": string(op.FriendId.Address()),
+				"access_giver_id": string(source),
+			},
+		)
+
+		effects.Add(source, history.EffectSignersAccessCreated,
+			map[string]interface{}{
+				"access_giver_id": string(source),
+				"access_taker_id": string(op.FriendId.Address()),
+			},
+		)
+
+	case xdr.OperationTypeSetSigners:
+		op := opbody.MustSetSignersOp()
+
+		//recheck this function
+		is.ingestSignersAccessEffects(effects, op)
+
 	default:
 		is.Err = fmt.Errorf("Unknown operation type: %s", is.Cursor.OperationType())
 		return
@@ -411,6 +434,52 @@ func (is *Session) ingestSignerEffects(effects *EffectIngestion, op xdr.SetOptio
 		}
 
 		effects.Add(source, history.EffectSignerCreated, map[string]interface{}{
+			"public_key": addy,
+			"weight":     weight,
+		})
+	}
+
+}
+
+func (is *Session) ingestSignersAccessEffects(effects *EffectIngestion, op xdr.SetSignersOp) {
+	//accessgiver := is.Cursor.OperationSourceAccount()
+
+	accesstaker := *(op.AccessGiverId)
+
+	be, ae, err := is.Cursor.BeforeAndAfter(accesstaker.LedgerKey())
+	if err != nil {
+		is.Err = err
+		return
+	}
+
+	beforeAccount := be.Data.MustAccount()
+	afterAccount := ae.Data.MustAccount()
+
+	before := beforeAccount.SignerSummary()
+	after := afterAccount.SignerSummary()
+
+	for addy := range before {
+		weight, ok := after[addy]
+		if !ok {
+			effects.Add(accesstaker, history.EffectSignerRemoved, map[string]interface{}{
+				"public_key": addy,
+			})
+			continue
+		}
+		effects.Add(accesstaker, history.EffectSignerUpdated, map[string]interface{}{
+			"public_key": addy,
+			"weight":     weight,
+		})
+	}
+	// Add the "created" effects
+	for addy, weight := range after {
+		// if `addy` is in before, the previous for loop should have recorded
+		// the update, so skip this key
+		if _, ok := before[addy]; ok {
+			continue
+		}
+
+		effects.Add(accesstaker, history.EffectSignerCreated, map[string]interface{}{
 			"public_key": addy,
 			"weight":     weight,
 		})
@@ -689,6 +758,16 @@ func (is *Session) operationDetails() map[string]interface{} {
 			details["value"] = base64.StdEncoding.EncodeToString(*op.DataValue)
 		} else {
 			details["value"] = nil
+		}
+	case xdr.OperationTypeGiveAccess:
+		op := c.Operation().Body.MustGiveSignersAccessOp()
+		details["access_giver_id"] = source.Address()
+		details["access_taker_id"] = op.FriendId
+	case xdr.OperationTypeSetSigners:
+		op := c.Operation().Body.MustSetSignersOp()
+		if op.Signer != nil {
+			details["signer_key"] = op.Signer.Key.Address()
+			details["signer_weight"] = op.Signer.Weight
 		}
 	default:
 		panic(fmt.Errorf("Unknown operation type: %s", c.OperationType()))

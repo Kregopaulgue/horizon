@@ -6,8 +6,8 @@ import (
 	"math"
 
 	sq "github.com/Masterminds/squirrel"
-	"github.com/stellar/go/support/errors"
-	"github.com/stellar/go/xdr"
+	"github.com/Kregopaulgue/go/support/errors"
+	"github.com/Kregopaulgue/go/xdr"
 	"github.com/stellar/horizon/db2"
 	"github.com/stellar/horizon/toid"
 )

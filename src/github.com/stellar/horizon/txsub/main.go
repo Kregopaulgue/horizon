@@ -1,7 +1,7 @@
 package txsub
 
 import (
-	"github.com/stellar/go/xdr"
+	"github.com/Kregopaulgue/go/xdr"
 	"golang.org/x/net/context"
 	"time"
 )

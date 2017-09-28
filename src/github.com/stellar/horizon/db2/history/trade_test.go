@@ -3,7 +3,7 @@ package history
 import (
 	"testing"
 
-	"github.com/stellar/go/build"
+	"github.com/Kregopaulgue/go/build"
 	"github.com/stellar/horizon/db2"
 	"github.com/stellar/horizon/test"
 )

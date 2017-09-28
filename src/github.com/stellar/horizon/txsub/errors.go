@@ -3,7 +3,7 @@ package txsub
 import (
 	"errors"
 	"fmt"
-	"github.com/stellar/go/xdr"
+	"github.com/Kregopaulgue/go/xdr"
 	"github.com/stellar/horizon/codes"
 )
 

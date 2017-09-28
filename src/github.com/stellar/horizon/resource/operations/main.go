@@ -3,7 +3,7 @@ package operations
 import (
 	"time"
 
-	"github.com/stellar/go/xdr"
+	"github.com/Kregopaulgue/go/xdr"
 	"github.com/stellar/horizon/db2/history"
 	"github.com/stellar/horizon/render/hal"
 	"github.com/stellar/horizon/resource/base"
@@ -24,6 +24,8 @@ var TypeNames = map[xdr.OperationType]string{
 	xdr.OperationTypeAccountMerge:       "account_merge",
 	xdr.OperationTypeInflation:          "inflation",
 	xdr.OperationTypeManageData:         "manage_data",
+	xdr.OperationTypeGiveAccess:         "give_access",
+	xdr.OperationTypeSetSigners:         "set_signers",
 }
 
 // New creates a new operation resource, finding the appropriate type to use
@@ -82,6 +84,14 @@ func New(
 		result = e
 	case xdr.OperationTypeManageData:
 		e := ManageData{Base: base}
+		err = row.UnmarshalDetails(&e)
+		result = e
+	case xdr.OperationTypeGiveAccess:
+		e := GiveSignersAccess{Base: base}
+		err = row.UnmarshalDetails(&e)
+		result = e
+	case xdr.OperationTypeSetSigners:
+		e := SetSigners{Base: base}
 		err = row.UnmarshalDetails(&e)
 		result = e
 	default:
@@ -223,4 +233,18 @@ type AccountMerge struct {
 // Inflation.
 type Inflation struct {
 	Base
+}
+
+//recheck this *json certainly*
+//RECHECK ALL OF THIS
+type GiveSignersAccess struct {
+	Base
+	AccessTaker string `json:"acess_taker_id"`
+}
+
+type SetSigners struct {
+	Base
+	AccessGiver     string `json:"access_giver_id"`
+	SignerKey       string `json:"signer_key,omitempty"`
+	SignerWeight    *int   `json:"signer_weight,omitempty"`
 }

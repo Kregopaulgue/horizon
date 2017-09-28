@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/stellar/go/xdr"
+	"github.com/Kregopaulgue/go/xdr"
 	"github.com/stellar/horizon/db2"
 	"github.com/stellar/horizon/db2/core"
 	"github.com/stellar/horizon/db2/history"

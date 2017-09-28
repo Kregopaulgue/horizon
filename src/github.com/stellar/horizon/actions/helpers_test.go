@@ -7,7 +7,7 @@ import (
 	"net/url"
 	"testing"
 
-	"github.com/stellar/go/xdr"
+	"github.com/Kregopaulgue/go/xdr"
 	"github.com/stellar/horizon/ledger"
 	"github.com/stellar/horizon/render/problem"
 	"github.com/stellar/horizon/test"

@@ -1,8 +1,8 @@
 package ingest
 
 import (
-	"github.com/stellar/go/support/errors"
-	err2 "github.com/stellar/go/support/errors"
+	"github.com/Kregopaulgue/go/support/errors"
+	err2 "github.com/Kregopaulgue/go/support/errors"
 	"github.com/stellar/horizon/db2/core"
 	"github.com/stellar/horizon/db2/history"
 	herr "github.com/stellar/horizon/errors"

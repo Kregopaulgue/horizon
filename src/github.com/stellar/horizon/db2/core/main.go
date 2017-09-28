@@ -4,9 +4,9 @@ package core
 
 import (
 	"github.com/guregu/null"
-	"github.com/stellar/go/strkey"
-	"github.com/stellar/go/support/db"
-	"github.com/stellar/go/xdr"
+	"github.com/Kregopaulgue/go/strkey"
+	"github.com/Kregopaulgue/go/support/db"
+	"github.com/Kregopaulgue/go/xdr"
 )
 
 // Account is a row of data from the `accounts` table
@@ -124,6 +124,11 @@ type Trustline struct {
 	Tlimit    xdr.Int64
 	Balance   xdr.Int64
 	Flags     int32
+}
+
+type SignersAccess struct {
+	Accessgiverid string	`db:"accessgiverid"`
+	Accesstakerid string	`db:"accesstakerid"`
 }
 
 // AssetFromDB produces an xdr.Asset by combining the constituent type, code and

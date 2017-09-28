@@ -8,8 +8,8 @@ import (
 
 	sq "github.com/Masterminds/squirrel"
 	"github.com/guregu/null"
-	"github.com/stellar/go/support/db"
-	"github.com/stellar/go/xdr"
+	"github.com/Kregopaulgue/go/support/db"
+	"github.com/Kregopaulgue/go/xdr"
 )
 
 const (
@@ -97,6 +97,14 @@ const (
 	// EffectDataUpdated occurs when an account changes a data field's value
 	EffectDataUpdated EffectType = 42 // from manage_data
 
+	//EffectSignersAccessCreated occurs when an account creates signers access connection with some account
+	EffectSignersAccessCreated EffectType = 43 // from manage_signers_access
+
+	//EffectSignersAccessRemoved occurs when an account removes signers access connection
+	EffectSignersAccessRemoved EffectType = 44 // from manage_signers_access
+
+	//EffectSignersAccessUpdated occurs when an account updates signers access connection
+	EffectSignersAccessUpdated EffectType = 45 // from manage_signers_access
 )
 
 // Account is a row of data from the `history_accounts` table
