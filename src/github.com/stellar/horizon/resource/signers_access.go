@@ -1,8 +1,6 @@
 package resource
 
 import (
-	"github.com/Kregopaulgue/go/amount"
-	"github.com/stellar/horizon/assets"
 	"github.com/stellar/horizon/db2/core"
 	"github.com/stellar/horizon/httpx"
 	"github.com/stellar/horizon/render/hal"
