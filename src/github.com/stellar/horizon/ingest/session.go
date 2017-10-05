@@ -299,13 +299,13 @@ func (is *Session) ingestEffects() {
 		effects.Add(op.FriendId, history.EffectSignersAccessCreated,
 			map[string]interface{}{
 				"access_taker_id": string(op.FriendId.Address()),
-				"access_giver_id": string(source),
+				"access_giver_id": string(source.Address()),
 			},
 		)
 
 		effects.Add(source, history.EffectSignersAccessCreated,
 			map[string]interface{}{
-				"access_giver_id": string(source),
+				"access_giver_id": string(source.Address()),
 				"access_taker_id": string(op.FriendId.Address()),
 			},
 		)
