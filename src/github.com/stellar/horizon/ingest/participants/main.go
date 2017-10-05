@@ -47,7 +47,7 @@ func ForOperation(
 	case xdr.OperationTypeGiveAccess:
 		result = append(result, op.Body.MustGiveSignersAccessOp().FriendId)
 	case xdr.OperationTypeSetSigners:
-		result = append(result, *(op.Body.MustSetSignersOp().AccessGiverId))
+		result = append(result, op.Body.MustSetSignersOp().AccessGiverId)
 	default:
 		err = fmt.Errorf("Unknown operation type: %s", op.Body.Type)
 	}

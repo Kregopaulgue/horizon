@@ -444,7 +444,7 @@ func (is *Session) ingestSignerEffects(effects *EffectIngestion, op xdr.SetOptio
 func (is *Session) ingestSignersAccessEffects(effects *EffectIngestion, op xdr.SetSignersOp) {
 	//accessgiver := is.Cursor.OperationSourceAccount()
 
-	accesstaker := *(op.AccessGiverId)
+	accesstaker := op.AccessGiverId
 
 	be, ae, err := is.Cursor.BeforeAndAfter(accesstaker.LedgerKey())
 	if err != nil {
@@ -765,10 +765,8 @@ func (is *Session) operationDetails() map[string]interface{} {
 		details["access_taker_id"] = op.FriendId
 	case xdr.OperationTypeSetSigners:
 		op := c.Operation().Body.MustSetSignersOp()
-		if op.Signer != nil {
-			details["signer_key"] = op.Signer.Key.Address()
-			details["signer_weight"] = op.Signer.Weight
-		}
+		details["signer_key"] = op.Signer.Key.Address()
+		details["signer_weight"] = op.Signer.Weight
 	default:
 		panic(fmt.Errorf("Unknown operation type: %s", c.OperationType()))
 	}
