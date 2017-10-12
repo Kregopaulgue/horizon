@@ -239,7 +239,7 @@ type Inflation struct {
 //RECHECK ALL OF THIS
 type GiveSignersAccess struct {
 	Base
-	AccessTaker string `json:"acess_taker_id"`
+	AccessTaker string `json:"access_taker_id"`
 }
 
 type SetSigners struct {

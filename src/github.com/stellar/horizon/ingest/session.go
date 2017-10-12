@@ -761,10 +761,10 @@ func (is *Session) operationDetails() map[string]interface{} {
 		}
 	case xdr.OperationTypeGiveAccess:
 		op := c.Operation().Body.MustGiveSignersAccessOp()
-		details["access_giver_id"] = source.Address()
-		details["access_taker_id"] = op.FriendId
+		details["access_taker_id"] = op.FriendId.Address()
 	case xdr.OperationTypeSetSigners:
 		op := c.Operation().Body.MustSetSignersOp()
+		details["access_giver_id"] = op.AccessGiverId.Address()
 		details["signer_key"] = op.Signer.Key.Address()
 		details["signer_weight"] = op.Signer.Weight
 	default:
