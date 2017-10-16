@@ -270,6 +270,7 @@ type SignersAccess struct {
 	PT            string `json:"paging_token"`
 	AccessGiverID string `json:"accessgiverid"`
 	AccessTakerID string `json:"accesstakerid"`
+	TimeFrames    int64  `json:"timeframes"`
 }
 
 // NewEffect returns a resource of the appropriate sub-type for the provided

@@ -129,6 +129,7 @@ type Trustline struct {
 type SignersAccess struct {
 	Accessgiverid string	`db:"accessgiverid"`
 	Accesstakerid string	`db:"accesstakerid"`
+	Timeframes 	  int64 	`db:"timeframes"`
 }
 
 // AssetFromDB produces an xdr.Asset by combining the constituent type, code and

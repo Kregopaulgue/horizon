@@ -10,9 +10,10 @@ import (
 func (this *SignersAccess) Populate(ctx context.Context, row core.SignersAccess) {
 	this.AccessGiverID = row.Accessgiverid
 	this.AccessTakerID = row.Accesstakerid
+	this.TimeFrames = row.Timeframes
 
 	lb := hal.LinkBuilder{httpx.BaseURL(ctx)}
-	this.Links.Self = lb.Linkf("/signersaccesses/%d", row.Accesstakerid, row.Accessgiverid)
+	this.Links.Self = lb.Linkf("/signersaccesses/%d", row.Accesstakerid, row.Accessgiverid, row.Timeframes)
 	this.Links.SignersAccessMaker = lb.Linkf("/accounts/%s", row.Accessgiverid)
 	return
 }

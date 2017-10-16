@@ -240,6 +240,7 @@ type Inflation struct {
 type GiveSignersAccess struct {
 	Base
 	AccessTaker string `json:"access_taker_id"`
+	TimeFrames  int64  `json:"time_frames"`
 }
 
 type SetSigners struct {

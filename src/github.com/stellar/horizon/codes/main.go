@@ -5,6 +5,7 @@ package codes
 import (
 	"github.com/go-errors/errors"
 	"github.com/Kregopaulgue/go/xdr"
+	"go/token"
 )
 
 // ErrUnknownCode is returned when an unexepcted value is provided to `String`
@@ -248,6 +249,10 @@ func String(code interface{}) (string, error) {
 			return "op_friend_doesnt_exist", nil
 		case xdr.GiveSignersAccessResultCodeGiveSignersAccessAccessSrcNotAuthorised:
 			return "access_src_not_authorised", nil
+		case xdr.GiveSignersAccessResultCodeGiveSignersAccessSignersAccessAlreadyExists:
+			return "op_such_signers_access_already_exists", nil
+		case xdr.GiveSignersAccessResultCodeGiveSignersAccessTimeFramesEqualOrLessThenCurrentTime:
+			return "op_time_frames_equal_or_less_then_current_time", nil
 		}
 	case xdr.SetSignersResultCode:
 		switch code {
@@ -263,6 +268,8 @@ func String(code interface{}) (string, error) {
 			return "op_access_giver_doesnt_exist", nil
 		case xdr.SetSignersResultCodeSetSignersAccessEntryDoesntExist:
 			return "op_signers_access_entry_doesnt_exist", nil
+		case xdr.SetSignersResultCodeSetSignersCurrentTimeNotWithinAccessTimeFrames:
+			return "op_current_time_not_within_access_time_frames", nil
 		case xdr.SetSignersResultCodeSetSignersBadSigner:
 			return "op_bad_signer", nil
 		}
