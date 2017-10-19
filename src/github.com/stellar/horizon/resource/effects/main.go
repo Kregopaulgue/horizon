@@ -242,18 +242,21 @@ type SignersAccessCreated struct {
 	Base
 	AccessGiverID string `json:"accessgiverid"`
 	AccessTakerID string `json:"accesstakerid"`
+	TimeFrames    string `json:"time_frames"`
 }
 
 type SignersAccessUpdated struct {
 	Base
 	AccessGiverID string `json:"accessgiverid"`
 	AccessTakerID string `json:"accesstakerid"`
+	TimeFrames    string `json:"time_frames"`
 }
 
 type SignersAccessRemoved struct {
 	Base
 	AccessGiverID string `json:"accessgiverid"`
 	AccessTakerID string `json:"accesstakerid"`
+	TimeFrames    string `json:"time_frames"`
 }
 
 type Trade struct {

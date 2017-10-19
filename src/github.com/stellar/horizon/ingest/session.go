@@ -300,7 +300,7 @@ func (is *Session) ingestEffects() {
 			map[string]interface{}{
 				"access_taker_id": string(op.FriendId.Address()),
 				"access_giver_id": string(source.Address()),
-				"time_frames": string(op.TimeFrames),
+				"time_frames":     string(int64(op.TimeFrames)),
 			},
 		)
 
@@ -308,7 +308,7 @@ func (is *Session) ingestEffects() {
 			map[string]interface{}{
 				"access_giver_id": string(source.Address()),
 				"access_taker_id": string(op.FriendId.Address()),
-				"time_frames": string(op.TimeFrames),
+				"time_frames":     string(int64(op.TimeFrames)),
 			},
 		)
 
@@ -764,7 +764,7 @@ func (is *Session) operationDetails() map[string]interface{} {
 	case xdr.OperationTypeGiveAccess:
 		op := c.Operation().Body.MustGiveSignersAccessOp()
 		details["access_taker_id"] = op.FriendId.Address()
-		details["time_frames"] = string(op.TimeFrames)
+		details["time_frames"] = amount.String(op.TimeFrames)
 	case xdr.OperationTypeSetSigners:
 		op := c.Operation().Body.MustSetSignersOp()
 		details["access_giver_id"] = op.AccessGiverId.Address()
